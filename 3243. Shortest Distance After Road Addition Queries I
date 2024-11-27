@@ -1,0 +1,48 @@
+class Solution {
+    private int shortestPath(List<List<Integer>> adj, int n) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{0, 0}); // Start BFS from node 0
+        Set<Integer> visit = new HashSet<>();
+        visit.add(0);
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int cur = curr[0], length = curr[1];
+            if (cur == n - 1) return length; // Found path to destination
+
+            for (int nei : adj.get(cur)) {
+                if (!visit.contains(nei)) {
+                    q.offer(new int[]{nei, length + 1});
+                    visit.add(nei);
+                }
+            }
+        }
+        return -1;
+
+        // False Code: DFS attempt (inefficient for shortest path)
+        // Stack<int[]> stack = new Stack<>();
+        // stack.push(new int[]{0, 0});
+        // while (!stack.isEmpty()) { DFS }
+    }
+
+    public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+            adj.get(i).add(i + 1); // Initial linear graph
+
+            // False Code: Connect every node to every other node
+            // for (int j = 0; j < n; j++) { adj.get(i).add(j); }
+        }
+
+        List<Integer> resList = new ArrayList<>();
+        for (int[] query : queries) {
+            adj.get(query[0]).add(query[1]); // Add edge from query
+            resList.add(shortestPath(adj, n)); // Calculate shortest path
+
+            // False Code: Undo edge addition after query
+            // adj.get(query[0]).remove((Integer) query[1]);
+        }
+        return resList.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
