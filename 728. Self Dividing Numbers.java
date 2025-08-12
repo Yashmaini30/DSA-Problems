@@ -1,17 +1,25 @@
 class Solution {
-    public boolean digitCount(String num) {
-        
-        int[] count = new int[10];
+    public List<Integer> selfDividingNumbers(int left, int right) {
 
-        for(char ch: num.toCharArray()){
-            count[ch - '0']++;
-        }
+        List<Integer> res = new ArrayList<>();
 
-        for(int i=0; i<num.length(); i++){
-            if(count[i] != num.charAt(i) - '0'){
-                return false;
+        for(int i=left; i <= right; i++){
+            if(CheckSelfDivide (i)){
+                res.add(i);
             }
         }
-        return true;
+        return res;    
+    }
+
+    private boolean CheckSelfDivide(int num){
+        int org = num;
+        while(num > 0){
+            int digit = num % 10;
+            if(digit == 0 || org % digit != 0){
+                return false;
+            }
+            num = num/10;
+        }
+        return  true;
     }
 }
