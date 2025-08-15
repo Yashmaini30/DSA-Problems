@@ -1,10 +1,18 @@
 class Solution {
     public boolean isPowerOfFour(int n) {
-        if (n < 1) return false;
-
+        /*
+        if (n < 1)return false;
         while (n % 4 == 0) {
             n = n / 4;
         }
         return n == 1;
+
+        without loop 
+        ik to check power of 2 .....n & (n-1) = 0
+        and power of 4 is also power of 2
+        */
+        return n > 0
+                && (n & (n - 1)) == 0 
+                && n % 3 == 1;
     }
 }
